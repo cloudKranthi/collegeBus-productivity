@@ -21,7 +21,9 @@ const loginRoute = (async(req,res,next)=>{
             user.refreshToken = refreshToken;
             await User.save();
             const options = {sameSite:'None',httpOnly:true,secure:false}
-            res.cookie(accessToken,options).status(200).json({message:'User logged in Succesfully'})
+            res.cookie('accessToken',accessToken,options)
+            .cookie('refreshToken',refreshToken,options)
+            .status(200).json({message:'User logged in Succesfully'})
          }catch(error){
            throw new Error(error)
          }
