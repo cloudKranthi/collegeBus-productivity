@@ -15,8 +15,10 @@ const logoutController= async(req,res,next)=>{
     user.refreshToken ='';
     await user.save();
 
-return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})}
+return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})
+}
 catch(error){
-return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})}
+return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})
+}
 }
 module.exports = logoutController;
