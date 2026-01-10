@@ -9,6 +9,11 @@ const busSchema = new mongoose.Schema(
         },
         driverName:{
             type:String
+        },
+        routeName:{
+            type:String,
+            required:true,
+            unique:true
         }
     }
 )

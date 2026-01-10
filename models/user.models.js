@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:['Student','Teacher'],
+        enum:['Student','Admin'],
             default:"Student"
     },
     refreshToken:{
@@ -42,10 +42,10 @@ UserSchema.methods.generateAccessToken = async function(){
     const username = this.username;
     const email = this.email;
  return  jwt.sign({id:this._id
-  },process.env.ACCESS_TOKEN_SECRET,{expiresIn:process.env.ACCESS_TOKEN_EXPIRY,sameSite:none})
+  },process.env.ACCESS_TOKEN_SECRET,{expiresIn:process.env.ACCESS_TOKEN_EXPIRY})
 }
 UserSchema.methods.generateRefreshToken = async function(){
     return jwt.sign({id:this._id
-    },process.env.REFRESH_TOKEN_SECRET,{expiresIn:process.env.REFRESH_TOKEN_EXPIRY,sameSite:none})
+    },process.env.REFRESH_TOKEN_SECRET,{expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
 }
 module.exports = mongoose.model('User',UserSchema)
