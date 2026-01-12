@@ -18,6 +18,7 @@ const busassigncontroller = async (req,res)=>{
      if(!bus){
         return res.status(404).json({message:'No such bus exists for the route name '})
      }
+     const capacity = await User.aggregate([{$}])
      
      user.bus = bus._id;
      await user.save();
@@ -27,3 +28,8 @@ const busassigncontroller = async (req,res)=>{
     }
 }
 module.exports = busassigncontroller;
+// endpoints 
+//1. assigned by using bus names not by bus ids or numbers
+//2. no automatic assigning only admin can assign bus to users
+//3.counting thing 
+//4.not assigned based on distance names
