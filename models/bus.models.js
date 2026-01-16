@@ -13,7 +13,8 @@ const busSchema = new mongoose.Schema(
         routeName:{
             type:String,
             required:true,
-            unique:true
+            unique:true,
+            index:true
         }
     }
 )
