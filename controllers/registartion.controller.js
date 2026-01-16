@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 const registerController = async(async (req,res,next)=>{
     const {username,email,password,role}= req.body;
     if(!username||!email||!password||!role){
-        return res.status(400).json('message: ALL FEILDS ARE REQUIRED')
+        return res.status(400).json({message: 'ALL FEILDS ARE REQUIRED'})
     }
     try{
    const user = new User({
     username:username,
-    email:email,
+    email:email.trim().toLowerCase(),
     password:password,
     role:role
    })

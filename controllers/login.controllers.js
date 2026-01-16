@@ -8,13 +8,13 @@ const loginRoute = (async(req,res,next)=>{
     return res.status('400').json('message:All feilds are required')
    }
          try{
-            const user = await User.findOneBy({email:email})
+            const user = await User.findOneBy({email:email.trim().toLowerCase()})
             if(!user){
-                return res.status('400').json({message:'no such User exists'})
+                return res.status('404').json({message:'no such User exists'})
             }
             const comparePassword = bcrypt.compare(password,user.password)
             if(!comparePassword){
-                return res.status(400).json({message:'Password is incorrect'})
+                return res.status(401).json({message:'Password is incorrect'})
             }
             const accessToken = User.generateAccessToken();
             const refreshToken = User.generateRefreshToken();

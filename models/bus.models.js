@@ -14,7 +14,15 @@ const busSchema = new mongoose.Schema(
             type:String,
             required:true,
             unique:true,
-            index:true
+            index:true,
+            lowercase:true
+        },
+        capacity:{
+            type:Number,
+            required:true,
+        },
+        presentStrength:{
+            type:Number
         }
     }
 )
