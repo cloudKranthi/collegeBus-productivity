@@ -22,8 +22,13 @@ const busSchema = new mongoose.Schema(
             required:true,
         },
         presentStrength:{
-            type:Number
-        }
+            type:Number,
+            default:0
+        },
+        students:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }]
     }
 )
 module.exports = mongoose.model('Bus',busSchema)

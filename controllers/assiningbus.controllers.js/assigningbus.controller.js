@@ -23,6 +23,12 @@ const busassigncontroller = async (req,res)=>{
          const user = await User.findOneAndUpdate({email:email.trim().toLowerCase(),
             bus:null
          },{bus:bus._id},{new:true})
+         
+            if(user){
+                const userdetails =await User.findOne({email:email.trim().toLowerCase()})
+                const busnew= await Bus.findOneAndUpdate({routename:routeName},{$push:{students:userdetails._id}},{new:true})
+            }
+         
      if(!user){
         await Bus.findByIdAndUpdate(bus._id,{$inc:{presentStrength:-1}})
         const newUser = await User.findOne({email:email.trim().toLowerCase()})
