@@ -7,8 +7,8 @@ const busassigningController= async(req,res)=>{
         return res.status(403).json({message:'Unauthorized request'})
     }
     try{
-        const {busNumber,driverName,routeName}= req.body;
-        if(!busNumber||!driverName||!routeName){
+        const {busNumber,driverName,routeName,capacity}= req.body;
+        if(!busNumber||!driverName||!routeName||!capacity){
             return res.status(400).json({message:'All feilds are required'})
         }
         const busdoc = await Bus.findOne({busNumber})
@@ -18,7 +18,8 @@ const busassigningController= async(req,res)=>{
         const bus = new Bus({
             busNumber:busNumber,
             driverName:driverName,
-            routeName:routeName
+            routeName:routeName,
+            capacity:capacity
         })
         await bus.save();
         return res.status(201).json({message:'New Bus registered succesfully'})
