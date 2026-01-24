@@ -1,4 +1,4 @@
-const { request } = require("http");
+
 
 const rolecheckmiddleware = async(req,res,next)=>{
     const user = req.user;
@@ -6,8 +6,8 @@ const rolecheckmiddleware = async(req,res,next)=>{
         return res.status(401).json({message:'user not logged in'})
     }
     try{
-    const role = user.role;
-    if(role!='Admin'){
+    const role = user.role.trim().toLowerCase();
+    if(role!='admin'){
         return res.status(403).json({message:'forbidden request'})
     }
     next()

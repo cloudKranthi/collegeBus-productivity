@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/user.models')
 const jwt = require('jsonwebtoken');
 const registerController = async (req,res,next)=>{
-    const {username,email,password,role,capacity}= req.body;
-    if(!username||!email||!password||!role||!capacity){
+    const {username,email,password,role}= req.body;
+    if(!username||!email||!password||!role){
         return res.status(400).json({message: 'ALL FEILDS ARE REQUIRED'})
     }
     try{
@@ -12,8 +12,8 @@ const registerController = async (req,res,next)=>{
     username:username,
     email:email.trim().toLowerCase(),
     password:password,
-    role:role,
-    capacity:capacity
+    role:role
+
    })
 await user.save();
 

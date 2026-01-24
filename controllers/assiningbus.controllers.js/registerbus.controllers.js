@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const Bus = require('../../models/bus.models');
 const User= require('../../models/user.models')
 const busassigningController= async(req,res)=>{
-    const role= req.user.role;
-    if(role != 'Admin'){
-        return res.status(403).json({message:'Unauthorized request'})
-    }
+    
     try{
         const {busNumber,driverName,routeName,capacity}= req.body;
         if(!busNumber||!driverName||!routeName||!capacity){
