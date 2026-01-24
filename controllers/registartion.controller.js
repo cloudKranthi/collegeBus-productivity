@@ -1,9 +1,10 @@
 const mongoose= require('mongoose');
+const bcrypt = require('bcryptjs')
 const User = require('../models/user.models')
 const jwt = require('jsonwebtoken');
-const registerController = async(async (req,res,next)=>{
-    const {username,email,password,role}= req.body;
-    if(!username||!email||!password||!role){
+const registerController = async (req,res,next)=>{
+    const {username,email,password,role,capacity}= req.body;
+    if(!username||!email||!password||!role||!capacity){
         return res.status(400).json({message: 'ALL FEILDS ARE REQUIRED'})
     }
     try{
@@ -11,13 +12,16 @@ const registerController = async(async (req,res,next)=>{
     username:username,
     email:email.trim().toLowerCase(),
     password:password,
-    role:role
+    role:role,
+    capacity:capacity
    })
 await user.save();
+
 return res.status(201).json({message:'User registered succesfully'})
     }catch(error){
-        throw new Error(error)
+        next(error);
+
     }
     
-})
+}
 module.exports = registerController;

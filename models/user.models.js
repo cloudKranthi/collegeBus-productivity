@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
+require('dotenv').config();
+const bcrypt=require('bcryptjs')
+const jwt = require('jsonwebtoken');
+
 const UserSchema = new mongoose.Schema({
     username:{
         type:String,
@@ -31,21 +34,18 @@ const UserSchema = new mongoose.Schema({
         ref:'Bus'
     }
 },{timestamps:true})
-UserSchema.pre('save',async function(next){
+UserSchema.pre('save',async function(){
     if(this.isModified('password')){
         this.password =  await bcrypt.hash(this.password,10)
     
     }
-    next();
+    return;
 })
-UserSchema.methods.generateAccessToken = async function(){
-    const userId= this._id;
-    const username = this.username;
-    const email = this.email;
+UserSchema.methods.generateAccessToken =  function(){
  return  jwt.sign({id:this._id
   },process.env.ACCESS_TOKEN_SECRET,{expiresIn:process.env.ACCESS_TOKEN_EXPIRY})
 }
-UserSchema.methods.generateRefreshToken = async function(){
+UserSchema.methods.generateRefreshToken = function(){
     return jwt.sign({id:this._id
     },process.env.REFRESH_TOKEN_SECRET,{expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
 }

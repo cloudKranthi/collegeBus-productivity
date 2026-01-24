@@ -1,15 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { Route } = require('react-router');
-const registrationRoute = require('./routes/registration.route')
-const loginRoute_andlogoutRoute = require('./routes/login_and logout.route')
-const app = Route.express();
-const PORT = process.env.PORT
-app.use('/',registrationRoute)
-app.use('/',loginRoute_andlogoutRoute)
+const registrationRoute = require('./routes/auth_routes/registration.route')
+const loginRoute_andlogoutRoute = require('./routes/auth_routes/login_and logout.route')
+const bus = require('./routes/bus_routes/busregistration.route')
+const app = express();
+app.use(express.json());
+const PORT = process.env.PORT||5000||8800;
 
 const connectDB = require('./utils/config/connectdb')
-app.use(connectDB);
+
+    connectDB()
+    .then(()=>{
+    app.use('/register',registrationRoute)
+app.use('/',loginRoute_andlogoutRoute)
+app.use('/bus',bus)
 app.listen(PORT,()=>{
     console.log(`Server started on ${PORT}`)
 })
+    })
+.catch((error)=>{
+    console.log(error)
+})
+

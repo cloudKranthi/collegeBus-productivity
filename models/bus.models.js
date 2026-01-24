@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const User = require('./user.models')
 const busSchema = new mongoose.Schema(

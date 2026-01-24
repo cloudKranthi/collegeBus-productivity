@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-const logoutController = require('../controllers/logout.controllers')
-const logincontroller=require('../controllers/login.controllers')
-const verifyJWT= require('../middleware/auth.middleware')
+const logoutController = require('../../controllers/logout.controllers')
+const logincontroller=require('../../controllers/login.controllers')
+const verifyJWT= require('../../middleware/auth.middleware')
 router.route('/login').post(logincontroller);
 router.route('/logout').post(verifyJWT,logoutController);
 module.exports = router;
