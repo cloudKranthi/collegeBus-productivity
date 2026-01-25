@@ -7,16 +7,38 @@ const busdetailsController= async(req,res)=>{
     if(!bus){
         return res.status(404).json({message:'No such Bus exists'})
     }
-    const users = await User.aggregate([{
+    const users = await Bus.aggregate([{
         $match:{
-            bus:new mongoose.Types.ObjectId(bus._id)
-        }},{$project:{
-            username:1,
-            email:1,
-            createdAt:1,
-            updatedAt:1,
-            _id:0
+            "routeName":routeName
         }
+    },{
+        $lookup:{
+            from:'users',
+            localField:"_id",
+            foreignField:"bus",
+            as:"bususers"
+        }},{
+            $addFields:{
+                isfull:{
+                    $cond:{
+                        if:{
+                            $gte:["$presentStrength","$capacity"]
+                        }
+                        ,
+                        then:true,
+                        else:false
+                    }  
+                }
+            }
+        },{$project:{
+            "bususers.username":1,
+            "bususers.email":1,
+            "bususers.createdAt":1,
+            "bususers.updatedAt":1,
+            "bususers._id":0,
+            isfull:1
+
+        }      
     }
     ])
     res.status(200).json({users})
