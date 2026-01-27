@@ -2,18 +2,26 @@ const mongoose = require('mongoose');
 const Bus = require('../models/bus.models');
 const { ref } = require('process');
 const { format } = require('path');
+const tripStatus ={
+    'TO_BE_STARTED':0,
+    'ON_ROAD':1,
+    'COMPLETED':2,
+    'CANCELED':-1
+}
+const nextstatus ={
+    [tripStatus.TO_BE_STARTED]:[tripStatus.ON_ROAD,tripStatus.CANCELED],
+    [tripStatus.ON_ROAD]:[tripStatus.COMPLETED,tripStatus.CANCELED],
+    [tripStatus.COMPLETED]:[],
+    [tripStatus.CANCELED]:[]
+}
 const tripSchema = new mongoose.Schema({
     bus:{
         type: mongoose.Schema.Types.ObjectId,
     ref:'Bus'
     },
-    status:{
-        type:String,
-        enum:['ToBeStarted','OnRoad','Completed','Cancelled'],
-        default:'ToBeStarted'
-    },
     statusCode:{
-        type:Number
+        type:Number,
+        default:tripStatus.TO_BE_STARTED
     },
     slot:{
         type:String,
@@ -24,4 +32,5 @@ const tripSchema = new mongoose.Schema({
 
     }
 },{timestamps:true})
-module.exports=mongoose.model('Trip',tripSchema)
+const Trip = mongoose.model('Trip',tripSchema)
+module.exports={Trip,tripStatus,nextstatus}
