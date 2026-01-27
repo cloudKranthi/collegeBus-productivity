@@ -9,7 +9,7 @@ const tripSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        enum:['ToBeStarted','OnRoad','Completed'],
+        enum:['ToBeStarted','OnRoad','Completed','Cancelled'],
         default:'ToBeStarted'
     },
     statusCode:{

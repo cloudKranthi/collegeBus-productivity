@@ -9,11 +9,24 @@ const tripCreation = async(req,res)=>{
     if(!bus){
         return res.status(404).json({message:'No such Bus present'})
     } 
+
     const fdate= new Date();
     const formattedDate= fdate.toLocaleDateString('en-CA',{
         timeZone:'Asia/kolkata'
     })
     const sdate = formattedDate.split("T")[0];
+        const matchTrip = await Trip.aggregate([
+        {
+            $match:{
+                bus:bus._id,
+                slot:slot,
+                date: sdate 
+            }
+        }
+    ])
+    if(matchTrip){
+        return res.status(409).json({message:`Trip already exists for ${slot} for ${sdate} for ${routeName}`})
+    }
     const newTrip= new Trip({
         bus:bus._id,
         status:'ToBeStarted',
@@ -29,8 +42,8 @@ const tripCreation = async(req,res)=>{
     })
 }
 const tripTransiction = async(req,res)=>{
-    const {tripId} = req.body;
-    if(!tripId){
+    const {routeName,slot,date} = req.body;
+    if(!route){
         return res.status(400).json({message:'All feilds are required'})
     }
     const trip = await Trip.findById(tripId);
