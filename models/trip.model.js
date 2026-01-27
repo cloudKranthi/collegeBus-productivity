@@ -14,6 +14,13 @@ const nextstatus ={
     [tripStatus.COMPLETED]:[],
     [tripStatus.CANCELED]:[]
 }
+const TripStatusLabel ={
+    '-1':'Canceled',
+    '0':'To be started',
+    '1':'On Road',
+    '2':'Completed',
+    
+}
 const tripSchema = new mongoose.Schema({
     bus:{
         type: mongoose.Schema.Types.ObjectId,
@@ -33,4 +40,4 @@ const tripSchema = new mongoose.Schema({
     }
 },{timestamps:true})
 const Trip = mongoose.model('Trip',tripSchema)
-module.exports={Trip,tripStatus,nextstatus}
+module.exports={Trip,tripStatus,nextstatus,TripStatusLabel}

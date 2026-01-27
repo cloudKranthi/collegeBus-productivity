@@ -10,7 +10,8 @@ const busSchema = new mongoose.Schema(
             unique:true
         },
         driverName:{
-            type:String
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
         },
         routeName:{
             type:String,

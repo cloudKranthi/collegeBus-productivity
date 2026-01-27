@@ -3,12 +3,13 @@ const Bus = require('../../models/bus.models')
 const {Trip} = require('../../models/trip.model')
 const {tripStatus}= require('../../models/trip.model')
 const { nextstatus } = require('../../models/trip.model');
+const { TripStatusLabel } = require('../../models/trip.model');
 const tripCreation = async(req,res)=>{
     const{routeName,slot} = req.body;
      if(!routeName||!slot){
         return res.status(400).json({message:'All feilds are required'})
     }
-    const bus = await Bus.findOne({routeName:routeName});
+    const bus = await Bus.findOne({routeName:routeName.toLowerCase()});
     if(!bus){
         return res.status(404).json({message:'No such Bus present'})
     } 
@@ -45,7 +46,7 @@ const tripTransiction = async(req,res)=>{
     if(!routeName||!slot){
         return res.status(400).json({message:'All feilds are required'})
     }
-    const bus= await Bus.findOne({routeName:routeName})
+    const bus= await Bus.findOne({routeName:routeName.toLowerCase()})
     if(!bus){
         return res.status(404).json({message:'No such Bus present'})
     }
@@ -72,13 +73,15 @@ const tripTransiction = async(req,res)=>{
    const now = new Date();
  const difference = (now-lastupdated)/1000/60;
      if(difference<10){
-     return res.status(429).json({message:'Trip status can be updated only after 10 minutes of last update'})
+     return res.status(429).json({message:'Trip status cannot be updated continously'})
     }
     const  next = nextstatus[trip.statusCode]
     if( (next) && (next.length>0)){
         trip.statusCode= next[0];
         await trip.save();
-    return res.status(200).json({message:'Trip status updated succesfully'})
+    return res.status(200).json({message:'Trip status updated succesfully',
+        'currentStatus':TripStatusLabel[trip.statusCode]
+    })
     }else{
         return res.status(409).json({message:'Trip status cannot be updated further'})
     }
