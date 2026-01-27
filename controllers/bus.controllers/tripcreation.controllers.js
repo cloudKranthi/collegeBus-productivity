@@ -68,6 +68,7 @@ const tripTransiction = async(req,res)=>{
    if(trip.statusCode ===tripStatus.CANCELED ||trip.statusCode==tripStatus.COMPLETED){
     return res.status(409).json({message:'Trip Transiction is not possible'})
    }
+   if(trip.statusCode=== tripStatus.TO_BE_STARTED){
    const lastupdated = new Date(trip.updatedAt);
 
    const now = new Date();
@@ -75,6 +76,7 @@ const tripTransiction = async(req,res)=>{
      if(difference<10){
      return res.status(429).json({message:'Trip status cannot be updated continously'})
     }
+}
     const  next = nextstatus[trip.statusCode]
     if( (next) && (next.length>0)){
         trip.statusCode= next[0];
