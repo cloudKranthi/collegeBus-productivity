@@ -32,6 +32,11 @@ const tripCreation = async(req,res)=>{
         return res.status(409).json({message:`Trip already exists for ${slot} for ${sdate} for ${routeName}`})
         //if matchTrip exixts then return conflict error
     }
+    const matchuser = await Bus.findById(bus.driverName);
+
+    if(matchuser.username!=req.user.username){
+        return res.status(401).json({message:'Aunothorized request user cannot create trips for this route bus '})
+    }
     const newTrip= new Trip({
         bus:bus._id,
         statusCode:tripStatus.TO_BE_STARTED,
@@ -81,7 +86,11 @@ const tripTransiction = async(req,res)=>{
    if(trip.statusCode=== tripStatus.TO_BE_STARTED){
    const lastupdated = new Date(trip.updatedAt);
     // to prevent cases where there is a mistake of sending the double request to send another request minimum 10 minutes amount of time is required
-   const now = new Date();
+   //even thoe condition is kept  two continous clicks at a time may still cause at database level
+   //edge cases 
+   //1.timezone mismatch
+   //2.clock mismatch 
+    const now = new Date();
  const difference = (now-lastupdated)/1000/60;
      if(difference<10){
         // if difference is less than 10 minutes trip status isnt transited further
@@ -91,6 +100,7 @@ const tripTransiction = async(req,res)=>{
  //finding the next step of the present trip status by using map nextStatus
     const  next = nextstatus[trip.statusCode]
      // this is kept for cases to double check cases like completd,canceled for thatr length is only 1 empty array
+     // if further any enums are added in this level it causes error 
     if( (next) && (next.length>0)){
         // trip status is transited to next status 
         trip.statusCode= next[0];
@@ -105,7 +115,13 @@ const tripTransiction = async(req,res)=>{
     } 
     
 }catch(error){
-    console.error(`Error while updating status code of trip${error}`)
+    console.error({
+        action:'TRIP_STATUS_UPDATE',
+        tripid:trip._id,
+        from:TripStatusLabel[trip.statusCode],
+        to:nextstatus[trip.statusCode]
+    })
+    return res.status(500).json({message:'Error while updating the tripsattus'})
    }
 }
 const tripCancelController = async(req,res)=>{

@@ -1,13 +1,16 @@
 const jwt = require('jsonwebtoken')
 const User = require('../../models/user.models')
 const logoutController= async(req,res,next)=>{
-    const refreshToken= req.cookies.refreshToken;
-    if(!refreshToken){
+    const accessToken= req.cookies.accessToken;
+    if(!accessToken){
         return res.status(401).json({message:'User not logged in'});
     }
     const options={httpOnly:true,sameSite:'None',secure:true}
     try{
-    const decoded = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET)
+    const decoded = jwt.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
+    if(!decoded){
+        return res.status(401).json({message:'User not logged in '})
+    }
     const user = await User.findById(decoded.userId)
     if(!user){
         throw new Error('no such user exists')

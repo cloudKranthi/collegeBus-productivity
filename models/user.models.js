@@ -51,4 +51,8 @@ UserSchema.methods.generateRefreshToken = function(){
     return jwt.sign({_id:this._id
     },process.env.REFRESH_TOKEN_SECRET,{expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
 }
+//indexing is added to prevent race conditions duplicate conditions
+UserSchema.index({
+    bus:1,slot:1,date:-1
+},{unique:true})
 module.exports = mongoose.model('User',UserSchema)
