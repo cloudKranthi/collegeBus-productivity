@@ -65,6 +65,7 @@ const tripTransiction = async(req,res)=>{
         return res.status(404).json({message:'No such Trip exists'})
     }
     try{
+         const status=trip.statusCode;
    if(trip.statusCode ===tripStatus.CANCELED ||trip.statusCode==tripStatus.COMPLETED){
     return res.status(409).json({message:'Trip Transiction is not possible'})
    }
@@ -81,7 +82,7 @@ const tripTransiction = async(req,res)=>{
     if( (next) && (next.length>0)){
         trip.statusCode= next[0];
         await trip.save();
-    return res.status(200).json({message:'Trip status updated succesfully from ',
+    return res.status(200).json({message:`Trip status updated succesfully from ${TripStatusLabel[status]} to ${TripStatusLabel[trip.statusCode]}by driver ${req.user.username} `,
         'currentStatus':TripStatusLabel[trip.statusCode]
     })
     }else{

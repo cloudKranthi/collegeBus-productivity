@@ -1,4 +1,4 @@
-const User = require('../models/user.models')
+const User = require('../../models/user.models')
 const jwt = require('jsonwebtoken')
 const refreshController= async(req,res,next)=>{
 const refreshToken = req.cookies.refreshToken;

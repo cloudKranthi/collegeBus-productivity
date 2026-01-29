@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/user.models')
+const User = require('../../models/user.models')
 const logoutController= async(req,res,next)=>{
     const refreshToken= req.cookies.refreshToken;
     if(!refreshToken){

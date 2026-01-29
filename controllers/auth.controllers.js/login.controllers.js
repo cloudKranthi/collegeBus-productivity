@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('../models/user.models')
+const User = require('../../models/user.models')
 const jwt = require('jsonwebtoken');
 const { access } = require('fs');
 const loginRoute = (async(req,res,next)=>{

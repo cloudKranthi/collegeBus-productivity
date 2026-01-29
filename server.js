@@ -15,7 +15,7 @@ const connectDB = require('./utils/config/connectdb')
     connectDB()
     .then(()=>{
         app.use(cookieParser());
-    app.use('/register',registrationRoute)
+    app.use('/',registrationRoute)
 app.use('/',loginRoute_andlogoutRoute)
 app.use('/bus',bus)
 app.use('/trip',trip)
