@@ -8,14 +8,17 @@ const busassigningController= async(req,res)=>{
         if(!busNumber||!driverName||!routeName||!capacity){
             return res.status(400).json({message:'All feilds are required'})
         }
+        //check weather the respective user is present ,bus is already present 
         const user = await User.findOne({name:driverName})
         if(!user){
             return res.status(404).json({message:'No such driver exists'})
         }
+    
         const busdoc = await Bus.findOne({busNumber})
         if(busdoc){
             return res.status(409).json({message:'Bus number already exists'})
         } 
+        //register new bus 
         const bus = new Bus({
             busNumber:busNumber,
             driverName:driverName._id,
