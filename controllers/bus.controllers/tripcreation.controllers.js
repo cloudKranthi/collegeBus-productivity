@@ -81,12 +81,12 @@ const tripTransiction = async(req,res)=>{
     if( (next) && (next.length>0)){
         trip.statusCode= next[0];
         await trip.save();
-    return res.status(200).json({message:'Trip status updated succesfully',
+    return res.status(200).json({message:'Trip status updated succesfully from ',
         'currentStatus':TripStatusLabel[trip.statusCode]
     })
     }else{
         return res.status(409).json({message:'Trip status cannot be updated further'})
-    }
+    } 
     
 }catch(error){
     console.error(`Error while updating status code of trip${error}`)
@@ -105,8 +105,8 @@ try{
      const next = nextstatus[trip.statusCode]
      if( (next) && (next.length>0)){
      trip.statusCode= nextstatus[trip.statusCode][1];
-   await trip.save();
- return res.status(200).json({message:'trip is succesfully canceled'})
+     await trip.save();
+     return res.status(200).json({message:'trip is succesfully canceled'})
      }
      else{
         return res.status(409).json({message:'Trip status cannot be updated further'})
