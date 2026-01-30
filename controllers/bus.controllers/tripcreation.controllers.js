@@ -125,13 +125,16 @@ const tripTransiction = async(req,res)=>{
    }
 }
 const tripCancelController = async(req,res)=>{
-    const{tripId}= req.body;
-    if(!tripId){
+    const{routeName,slot,date}= req.body;
+    if(!routeName||!slot||!date){
         return res.status(400).json({message:'All feilds are required'})
     }
 try{
      // finding the trip by itrs id 
-    const trip = await Trip.findOne({_id:tripId})
+    const trip = await Trip.findOne({routeName:routeName,
+        slot:slot,
+        date:date
+    })
      if(!trip){
         return res.status(404).json({message:'No such trip exists'})
      }

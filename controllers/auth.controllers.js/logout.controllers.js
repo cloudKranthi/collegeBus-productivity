@@ -1,27 +1,22 @@
 const jwt = require('jsonwebtoken')
 const User = require('../../models/user.models')
-const logoutController= async(req,res,next)=>{
+const logoutController= async(req,res)=>{
+        const options={httpOnly:true,sameSite:'None',secure:true}
     const accessToken= req.cookies.accessToken;
-    if(!accessToken){
-        return res.status(401).json({message:'User not logged in'});
-    }
-    const options={httpOnly:true,sameSite:'None',secure:true}
-    try{
-    const decoded = jwt.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
-    if(!decoded){
-        return res.status(401).json({message:'User not logged in '})
-    }
-    const user = await User.findById(decoded.userId)
-    if(!user){
-        throw new Error('no such user exists')
-    }
-    user.refreshToken ='';
-    await user.save();
 
-return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})
+    try{
+    const decoded = jwt.verify(accessToken,process.env.ACCESS_TOKEN_SECRET);
+
+    if(decoded?._id){
+        const user = await User.findByIdAndUpdate(decoded._id,{refreshToken:''});
+     } 
+     
+
+return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully '})
 }
 catch(error){
-return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully'})
+    console.error(error);
+return res.status(200).clearCookie('accessToken',options).clearCookie('refreshToken',options).json({message:'User logged out succesfully '})
 }
 }
 module.exports = logoutController;

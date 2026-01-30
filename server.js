@@ -6,6 +6,7 @@ const loginRoute_andlogoutRoute = require('./routes/auth_routes/login_and logout
 const bus = require('./routes/bus_routes/bus.route')
 const trip = require('./routes/bus_routes/trip.routes')
 const UserDetails = require('./routes/auth_routes/userdetails.routes')
+const errorHandler = require('./middleware/error.middleware');
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT||5000||8800;
@@ -20,6 +21,7 @@ app.use('/',loginRoute_andlogoutRoute)
 app.use('/bus',bus)
 app.use('/trip',trip)
 app.use('/userdetails',UserDetails)
+app.use(errorHandler);
 app.listen(PORT,()=>{
     console.log(`Server started on ${PORT}`)
 })

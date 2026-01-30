@@ -15,7 +15,6 @@ if(!user){
 }
 if(user.refreshToken !== refreshToken){
     return res.status(403).clearCookie('refreshToken',options).clearCookie('accessToken',options).json({message:'refresh token doesnot exist please login again'})
-
 }
 const newAccessToken = user.generateAccessToken();
 const newRefreshToken=user.generateRefreshToken();
