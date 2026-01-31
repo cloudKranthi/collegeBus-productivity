@@ -32,6 +32,14 @@ const UserSchema = new mongoose.Schema({
     bus:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Bus'
+    },
+    avatar:{
+        url:{
+            type:String
+        },
+        public_url:{
+            type:String
+        }
     }
 },{timestamps:true})
 UserSchema.pre('save',async function(){
