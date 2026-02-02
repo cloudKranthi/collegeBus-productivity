@@ -37,9 +37,27 @@ const UserSchema = new mongoose.Schema({
         url:{
             type:String
         },
-        public_url:{
+        public_id:{
             type:String
         }
+    },
+    studentProfile:{
+      father:{
+         url:{
+            type:String
+        },
+        public_id:{
+            type:String
+        }
+      },
+      mother:{
+        url:{
+            type:String
+        },
+        public_id:{
+            type:String
+        }
+      }
     }
 },{timestamps:true})
 UserSchema.pre('save',async function(){
@@ -60,7 +78,5 @@ UserSchema.methods.generateRefreshToken = function(){
     },process.env.REFRESH_TOKEN_SECRET,{expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
 }
 //indexing is added to prevent race conditions duplicate conditions
-UserSchema.index({
-    bus:1,slot:1,date:-1
-},{unique:true})
+
 module.exports = mongoose.model('User',UserSchema)

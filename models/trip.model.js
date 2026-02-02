@@ -39,5 +39,8 @@ const tripSchema = new mongoose.Schema({
 
     }
 },{timestamps:true})
+tripSchema.index({
+    bus:1,slot:1,date:-1,_id:-1
+})
 const Trip = mongoose.model('Trip',tripSchema)
 module.exports={Trip,tripStatus,nextstatus,TripStatusLabel}
