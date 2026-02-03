@@ -2,7 +2,6 @@ require('dotenv').config();
 const { v2: cloudinary } = require('cloudinary');
 const streamifier = require('streamifier');
 const fs = require('fs');
-const cloudinary = require('cloudinay');
 cloudinary.config({
     cloud_name:process.env.CLOUD_NAME,
     api_key:process.env.API_KEY,

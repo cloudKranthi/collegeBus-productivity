@@ -3,7 +3,7 @@ const ApiError= require('../../utils/ApiError')
 const User = require('../../models/user.models')
 const cloudinary = require('cloudinary')
 const streamifier = require('streamifier')
-const uploadparentimage= asyncHandler(async(req,res)=>{
+const parentphoto= asyncHandler(async(req,res)=>{
     const{type}=req.query;
     if(!req.file){
         throw new ApiError(400,'No file uploaded')
@@ -35,3 +35,4 @@ const uploadparentimage= asyncHandler(async(req,res)=>{
     secure_url:result.secure_url
     })
 })
+module.exports={parentphoto}

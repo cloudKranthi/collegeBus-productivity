@@ -37,4 +37,4 @@ const uploadimage = asyncHandller(async(req,res)=>{
         public_id:result.public_id
     })
 })
-module.exports = uploadimage
+module.exports={uploadimage}

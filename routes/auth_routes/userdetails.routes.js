@@ -1,12 +1,33 @@
 const express = require('express');
-const app = express.Router();
-const UserDetails = require('../../controllers/updatedetails.controllers.js/userdetails.controller')
-const verifyJwt= require('../../middleware/auth.middleware')
-const rolecheck= require('../../middleware/studentcheck.middeleware')
+const router = express.Router(); // Changed 'app' to 'router' to be standard
+
+// Middleware
+const verifyJwt = require('../../middleware/auth.middleware');
+const rolecheck = require('../../middleware/studentcheck.middeleware');
 const upload = require('../../middleware/multer.middleware');
-const verifyJWT = require('../../middleware/auth.middleware');
-const uploaduser = require('../../controllers/updatedetails.controllers.js/uploadimage')
-const parentphoto=require('../../controllers/updatedetails.controllers.js/uploadparentdetails')
-app.route('/avatar').post(verifyJwt,upload.single('avatar'),uploaduser)
-app.route('/studentProfile').patch(verifyJwt,rolecheck,upload.single('photo'),parentphoto)
-module.exports=app;
+
+
+
+// 4. Use the unique function names in the routes
+router.route('/avatar').post(
+    verifyJwt, 
+    upload.single('avatar'), 
+(req, res, next) => {
+    // This 'require' only runs when the user hits the /avatar endpoint
+    const { uploadimage } = require('../../controllers/updatedetails.controllers.js/uploadimage');
+    return uploadimage(req, res, next);
+});
+
+
+router.route('/studentProfile').patch(
+    verifyJwt, 
+    rolecheck, 
+    upload.single('photo'), 
+    (req, res, next) => {
+    // This 'require' only runs when the user hits the /studentProfile endpoint
+    const { parentphoto } = require('../../controllers/updatedetails.controllers.js/uploadparentdetails');
+    return parentphoto(req, res, next);
+});
+
+
+module.exports = router;
