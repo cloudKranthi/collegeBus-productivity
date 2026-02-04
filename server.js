@@ -8,6 +8,7 @@ const trip = require('./routes/bus_routes/trip.routes')
 const UserDetails = require('./routes/auth_routes/userdetails.routes')
 const errorHandler = require('./middleware/error.middleware');
 const app = express();
+const cors = require('cors')
 app.use(express.json());
 const PORT = process.env.PORT||5000||8800;
 
@@ -16,6 +17,10 @@ const connectDB = require('./utils/config/connectdb')
     connectDB()
     .then(()=>{
         app.use(cookieParser());
+        app.use(cors({
+            origin:'http://localhost:5173',
+            credentials:true
+        }))
     app.use('/',registrationRoute)
 app.use('/',loginRoute_andlogoutRoute)
 app.use('/bus',bus)

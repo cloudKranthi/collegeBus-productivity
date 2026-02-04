@@ -4,7 +4,7 @@ const User = require('../../models/user.models')
 const jwt = require('jsonwebtoken');
 const registerController = async (req,res,next)=>{
     const {username,email,password,role}= req.body;
-    if(!username||!email||!password||!role){
+    if(!username||!email||!password){
         return res.status(400).json({message: 'ALL FEILDS ARE REQUIRED'})
     }
     try{
