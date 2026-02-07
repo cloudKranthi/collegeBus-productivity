@@ -9,7 +9,7 @@ const busassigningController= async(req,res)=>{
             return res.status(400).json({message:'All feilds are required'})
         }
         //check weather the respective user is present ,bus is already present 
-        const user = await User.findOne({name:driverName})
+        const user = await User.findOne({username:driverName})
         if(!user){
             return res.status(404).json({message:'No such driver exists'})
         }

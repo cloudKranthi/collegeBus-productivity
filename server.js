@@ -23,6 +23,11 @@ const connectDB = require('./utils/config/connectdb')
         }))
     app.use('/',registrationRoute)
 app.use('/',loginRoute_andlogoutRoute)
+app.use((req,res,next)=>{
+    const requestID=crypto.randomUUID();
+    req.setHeader("requestId",requestID);
+    next();
+})
 app.use('/bus',bus)
 app.use('/trip',trip)
 app.use('/userdetails',UserDetails)
