@@ -1,9 +1,9 @@
 import { useState } from "react";
-import {busassign} from "../api/bus"; // your axios instance
+import {tripcreate} from "../api/trips"; // your axios instance
 
-function BusAssign() {
+function TripCreate() {
   const [form, setForm] = useState({
-    email: "",
+    slot: "",
     routeName: ""
   });
 
@@ -20,10 +20,10 @@ function BusAssign() {
     setSuccess("");
 
     try {
-     const res = await busassign(form);
+     const res = await tripcreate(form);
 
 setSuccess(
-  res.data?.message || "✅ student assigned successfully"
+  res.data?.message || "✅ Trip created  successfully"
 );
 
       setForm({
@@ -32,16 +32,16 @@ setSuccess(
       });
     } catch (err) {
       setError(
-        err.response?.data?.message || "❌ Failed to assign student"
+        err.response?.data?.message || "❌ Trip not created "
       );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 to-purple-700 px-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Assign Student to Bus
+          trip creation
         </h2>
 
         {success && (
@@ -59,9 +59,9 @@ setSuccess(
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            name="email"
-            placeholder="Email"
-            value={form.email}
+            name="routeName"
+            placeholder="route Name"
+            value={form.routeName}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
@@ -70,9 +70,9 @@ setSuccess(
 
           <input
             type="text"
-            name="routeName"
-            placeholder="Route Name"
-            value={form.routeName}
+            name="slot"
+            placeholder="slot"
+            value={form.slot}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
@@ -83,7 +83,7 @@ setSuccess(
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            Assign Student
+            create trip
           </button>
         </form>
       </div>
@@ -91,4 +91,4 @@ setSuccess(
   );
 }
 
-export default BusAssign;
+export default TripCreate;

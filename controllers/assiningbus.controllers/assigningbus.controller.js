@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const Bus = require('../../models/bus.models');
 const User = require('../../models/user.models');
 const busassigncontroller = async (req,res)=>{
@@ -30,9 +31,9 @@ const busassigncontroller = async (req,res)=>{
             // no user found
                    return res.status(404).json({message:'No such user exists'}) 
         }
-        if(newUser?.bus){  
+        if(newUser.bus){  
             //already bus is assigned to it 
-                 return res.status(409).json({message:'bus is already assigned'})
+                 return res.status(409).json({message:'student is already assigned with some bus'})
                 }
                 return res.status(500).json({message:'Internal Server Error'});
      }

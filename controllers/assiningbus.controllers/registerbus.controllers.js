@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Bus = require('../../models/bus.models');
 const User= require('../../models/user.models')
-const busassigningController= async(req,res)=>{
+const registerBusController= async(req,res,next)=>{
     
     try{
         const {busNumber,driverName,routeName,capacity}= req.body;
@@ -26,9 +26,10 @@ const busassigningController= async(req,res)=>{
             capacity:capacity
         })
         await bus.save();
+        next()
         return res.status(201).json({message:'New Bus registered succesfully'})
     }catch(error){
     return res.status(500).json({message:`Error while registering bus:${error.message}`})
     }
 }
-module.exports = busassigningController;
+module.exports = registerBusController;

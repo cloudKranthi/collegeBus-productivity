@@ -1,12 +1,10 @@
 import { useState } from "react";
-import axios from "../api/axios"; // your axios instance
+import {busregister} from "../api/bus"; // your axios instance
 
 function BusRegister() {
   const [form, setForm] = useState({
-    busNumber: "",
-    driverName: "",
-    routeName: "",
-    capacity: "",
+    email: "",
+    routeName: ""
   });
 
   const [success, setSuccess] = useState("");
@@ -22,21 +20,19 @@ function BusRegister() {
     setSuccess("");
 
     try {
-     const res = await axios.post("/bus/register", form);
+     const res = await busregister(form);
 
 setSuccess(
-  res.data?.message || "✅ Bus registered successfully"
+  res.data?.message || "✅ student assigned successfully"
 );
 
       setForm({
-        busNumber: "",
-        driverName: "",
-        routeName: "",
-        capacity: "",
+        email: "",
+        routeName: ""
       });
     } catch (err) {
       setError(
-        err.response?.data?.message || "❌ Failed to register bus"
+        err.response?.data?.message || "❌ Failed to assign student"
       );
     }
   };
@@ -45,7 +41,7 @@ setSuccess(
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 px-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Register Bus
+          Assign Student to Bus
         </h2>
 
         {success && (
@@ -63,23 +59,14 @@ setSuccess(
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            name="busNumber"
-            placeholder="Bus Number"
-            value={form.busNumber}
+            name="email"
+            placeholder="Email"
+            value={form.email}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
 
-          <input
-            type="text"
-            name="driverName"
-            placeholder="Driver Name"
-            value={form.driverName}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
 
           <input
             type="text"
@@ -91,21 +78,12 @@ setSuccess(
             required
           />
 
-          <input
-            type="number"
-            name="capacity"
-            placeholder="Capacity"
-            value={form.capacity}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
 
           <button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            Register Bus
+            Assign Student
           </button>
         </form>
       </div>

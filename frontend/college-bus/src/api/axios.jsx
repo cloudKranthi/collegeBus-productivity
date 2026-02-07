@@ -4,6 +4,7 @@ const API = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials:true
 });
 // Optional: attach token automatically if you store it
 API.interceptors.request.use((req) => {

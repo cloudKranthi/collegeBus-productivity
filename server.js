@@ -25,7 +25,8 @@ const connectDB = require('./utils/config/connectdb')
 app.use('/',loginRoute_andlogoutRoute)
 app.use((req,res,next)=>{
     const requestID=crypto.randomUUID();
-    req.setHeader("requestId",requestID);
+    req.requestId=requestID
+    res.setHeader("requestId",requestID);
     next();
 })
 app.use('/bus',bus)

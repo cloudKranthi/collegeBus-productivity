@@ -13,15 +13,12 @@ const errorHandler =(err,req,res,next)=>{
         const field =Object.keys(error.keyValue)[0];
         error = new ApiError(422,`${field} already exists`);
     }
-    if(!(error instanceof ApiError)){
-        error=  new ApiError(500,error.message||'Internal Server error');
-        error.isOperational=false;
-    }
+    
     
     const response={ 
         success:false,
-        message:error.isOperational?
-        error.message:'Internal Server Error'
+        message:
+        error.message
 
     }
     if(process.env.NODE_ENV==='development'){
