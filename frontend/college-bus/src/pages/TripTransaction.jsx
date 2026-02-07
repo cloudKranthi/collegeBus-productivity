@@ -1,13 +1,10 @@
 import { useState } from "react";
-import {busregister} from "../api/bus"; // your axios instance
+import {tripTransiction} from "../api/trips"; // your axios instance
 
-function BusRegister() {
+function TripTransiction() {
   const [form, setForm] = useState({
-    driverName: "",
-    routeName: "",
-    busNumber:"",
-    capacity:""
-
+    slot: "",
+    routeName: ""
   });
 
   const [success, setSuccess] = useState("");
@@ -23,30 +20,28 @@ function BusRegister() {
     setSuccess("");
 
     try {
-     const res = await busregister(form);
+     const res = await tripTransiction(form);
 
 setSuccess(
-  res.data?.message || "✅ student assigned successfully"
+  res.data?.message || "✅ Trip status updated succesfully"
 );
 
       setForm({
-          driverName: "",
-    routeName: "",
-    busNumber:"",
-    capacity:""
+        slot: "",
+        routeName: ""
       });
     } catch (err) {
       setError(
-        err.response?.data?.message || "❌ Failed to assign student"
+        err.response?.data?.message || "❌ Trip status not updated succesfully "
       );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 to-purple-700 px-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Register bus 
+          trip Transiction
         </h2>
 
         {success && (
@@ -64,38 +59,20 @@ setSuccess(
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            name="busNumber"
-            placeholder="busNumber"
-            value={form.busNumber}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-
-
-          <input
-            type="text"
             name="routeName"
-            placeholder="Route Name"
+            placeholder="route Name"
             value={form.routeName}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
+
+
           <input
             type="text"
-            name="driverName"
-            placeholder="Driver Name"
-            value={form.driverName}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-         <input
-            type="text"
-            name="capacity"
-            placeholder="capacity"
-            value={form.capacity}
+            name="slot"
+            placeholder="slot"
+            value={form.slot}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
@@ -106,7 +83,7 @@ setSuccess(
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            Register bus
+            Trip Transiction
           </button>
         </form>
       </div>
@@ -114,4 +91,4 @@ setSuccess(
   );
 }
 
-export default BusRegister;
+export default TripTransiction;

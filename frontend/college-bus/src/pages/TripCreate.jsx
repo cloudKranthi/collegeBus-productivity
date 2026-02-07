@@ -27,7 +27,7 @@ setSuccess(
 );
 
       setForm({
-        email: "",
+        slot: "",
         routeName: ""
       });
     } catch (err) {

@@ -1,13 +1,11 @@
 import { useState } from "react";
-import {busregister} from "../api/bus"; // your axios instance
+import { tripCancel } from "../api/trips";
 
-function BusRegister() {
+function TripCancel() {
   const [form, setForm] = useState({
-    driverName: "",
     routeName: "",
-    busNumber:"",
-    capacity:""
-
+    slot: "",
+    date: "",
   });
 
   const [success, setSuccess] = useState("");
@@ -23,30 +21,29 @@ function BusRegister() {
     setSuccess("");
 
     try {
-     const res = await busregister(form);
+      const res = await tripCancel(form);
 
-setSuccess(
-  res.data?.message || "✅ student assigned successfully"
-);
+      setSuccess(
+        res.data?.message || "✅ Trip cancelled successfully"
+      );
 
       setForm({
-          driverName: "",
-    routeName: "",
-    busNumber:"",
-    capacity:""
+        routeName: "",
+        slot: "",
+        date: "",
       });
     } catch (err) {
       setError(
-        err.response?.data?.message || "❌ Failed to assign student"
+        err.response?.data?.message || "❌ Trip not cancelled"
       );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 to-purple-700 px-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Register bus 
+          Cancel Trip
         </h2>
 
         {success && (
@@ -64,17 +61,6 @@ setSuccess(
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            name="busNumber"
-            placeholder="busNumber"
-            value={form.busNumber}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-
-
-          <input
-            type="text"
             name="routeName"
             placeholder="Route Name"
             value={form.routeName}
@@ -82,31 +68,32 @@ setSuccess(
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
+
           <input
             type="text"
-            name="driverName"
-            placeholder="Driver Name"
-            value={form.driverName}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-         <input
-            type="text"
-            name="capacity"
-            placeholder="capacity"
-            value={form.capacity}
+            name="slot"
+            placeholder="Slot"
+            value={form.slot}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
 
+          {/* DATE FIELD */}
+          <input
+            type="date"
+            name="date"
+            value={form.date}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
 
           <button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            Register bus
+            Cancel Trip
           </button>
         </form>
       </div>
@@ -114,4 +101,4 @@ setSuccess(
   );
 }
 
-export default BusRegister;
+export default TripCancel;
