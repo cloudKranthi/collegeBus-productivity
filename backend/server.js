@@ -18,7 +18,7 @@ const connectDB = require('./utils/config/connectdb')
     .then(()=>{
         app.use(cookieParser());
         app.use(cors({
-            origin:'http://localhost:5173',
+            origin:'https://collegebus.vercel.app/',
             credentials:true
         }))
     app.use('/',registrationRoute)

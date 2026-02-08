@@ -1,6 +1,6 @@
 import axios from "axios";
 const API = axios.create({
-  baseURL: "http://localhost:8800", // your backend URL
+  baseURL: "https://college-bus-backend-w799.onrender.com", // your backend URL
   headers: {
     "Content-Type": "application/json",
   },

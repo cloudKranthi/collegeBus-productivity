@@ -25,7 +25,7 @@ const loginRoute = (async(req,res,next)=>{
             const refreshToken = user.generateRefreshToken();
             user.refreshToken = refreshToken;
             await user.save();
-            const options = {sameSite:'lax',httpOnly:true,secure:false}
+            const options = {sameSite:'none',httpOnly:true,secure:true}
             //set  accesscokies and refreshcookies 
             res.cookie('accessToken',accessToken,options)
             .cookie('refreshToken',refreshToken,options)
