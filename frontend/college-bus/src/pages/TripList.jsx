@@ -1,5 +1,5 @@
 import { useState } from "react";
-import tripdata  from "../api/trips"; // Your updated axios service
+import tripdata  from "../api/tripdata"; // Your updated axios service
 
 function TripList() {
   const [form, setForm] = useState({
